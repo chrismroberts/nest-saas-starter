@@ -37,10 +37,10 @@ export class SampleService {
         return Promise.resolve(this.samples.find(s => s.id == id))
     }
 
-    create(sample: Sample) {
-        sample.id = newId('sample')
-        this.samples.push(sample)
+    create(sampleObj: Sample) {
+        sampleObj.id = newId('sample')
+        this.samples.push(sampleObj)
         
-        return sample
+        return sampleObj
     }
 }
