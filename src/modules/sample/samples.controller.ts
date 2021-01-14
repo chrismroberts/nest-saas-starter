@@ -1,4 +1,5 @@
-import { Body, Controller, Get, NotFoundException, Param, Post } from '@nestjs/common';
+import { Controller, Request, Body, Param, Get, Post, NotFoundException, Logger } from '@nestjs/common';
+import { ExtendedRequest } from 'src/models/extended.request';
 import { JoivalidationPipe } from 'src/pipes/joivalidation.pipe';
 import { Sample } from './sample.model';
 import { SampleService } from './sample.service';
@@ -8,13 +9,16 @@ export class SamplesController {
     constructor(private sampleService: SampleService) { }
 
     @Get()
-    async get(): Promise<Sample[]> {
+    async get(@Request() req: ExtendedRequest): Promise<Sample[]> {
+        Logger.log(`User name ${req.user.name}, Id ${req.user.id} hit GET Samples`)
         return await this.sampleService.find()
     }
 
     @Get(':id')
-    async getById(@Param('id') id: string): Promise<Sample> {
+    async getById(@Request() req: ExtendedRequest, @Param('id') id: string): Promise<Sample> {
+        Logger.log(`User name ${req.user.name}, Id ${req.user.id} hit GET Sample by Id`)
         let sample = await this.sampleService.findById(id)
+
         if (!sample) {
             throw new NotFoundException(`Sample with Id ${id} not found`)
         }
@@ -23,7 +27,8 @@ export class SamplesController {
     }
 
     @Post()
-    async create(@Body(new JoivalidationPipe(Sample.validationSchema)) body: Sample) {
+    async create(@Request() req: ExtendedRequest, @Body(new JoivalidationPipe(Sample.validationSchema)) body: Sample) {
+        Logger.log(`User name ${req.user.name}, Id ${req.user.id} hit POST Sample`)
         return await this.sampleService.create(body)
     }
 }

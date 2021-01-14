@@ -12,9 +12,9 @@ Logger.log(`Starting ${APPNAME} version ${VERSION}`)
 Logger.log('Ensuring environment is configured correctly..')
 
 assert.strictEqual(true, !BASE_PATH.endsWith('/'), 'API_BASE_PATH must not include a trailing /');
+assert(process.env.AUTH_DOMAIN, 'Must specify Auth0 Domain as AUTH_DOMAIN')
+assert(process.env.AUTH_AUDIENCE, 'Must specify Auth0 API Audience as AUTH_AUDIENCE')
 //assert(process.env.MONGO_CONNECTION, 'Must specify Mongo connection string as MONGO_CONNECTION')
-//assert(process.env.AUTH_DOMAIN, 'Must specify Auth0 Domain as AUTH_DOMAIN')
-//assert(process.env.AUTH_AUDIENCE, 'Must specify Auth0 API Audience as AUTH_AUDIENCE')
 
 Logger.log('Environment is OK')
 
