@@ -1,5 +1,6 @@
-import { Controller, Request, Body, Param, Get, Post, NotFoundException, Logger } from '@nestjs/common';
+import { Controller, Request, Body, Param, Get, Post, NotFoundException, Logger, Delete, HttpCode, NotImplementedException } from '@nestjs/common';
 import { ExtendedRequest } from 'src/models/extended.request';
+import { Permissions } from 'src/guards/permissions.guard';
 import { JoivalidationPipe } from 'src/pipes/joivalidation.pipe';
 import { Sample } from './sample.model';
 import { SampleService } from './sample.service';
@@ -30,5 +31,12 @@ export class SamplesController {
     async create(@Request() req: ExtendedRequest, @Body(new JoivalidationPipe(Sample.validationSchema)) body: Sample) {
         Logger.log(`User name ${req.user.name}, Id ${req.user.id} hit POST Sample`)
         return await this.sampleService.create(body)
+    }
+
+    @Delete(':id')
+    @Permissions('delete:samples')
+    @HttpCode(204)
+    async delete(@Request() req: ExtendedRequest, @Param('id') id: string) {
+        throw new NotImplementedException()
     }
 }
