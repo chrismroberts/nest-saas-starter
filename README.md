@@ -41,7 +41,9 @@ async delete(@Param('id') id: string) {
 
 ### Joi Validation Pipe
 
-Use the Joi validation pipe to apply Joi validation rules to an incoming request. Attach to an endpoint that supports a request body (such as Post or Put) using `@Body(new JoiValidationPipe(...validationSchema))`. Optionally, you can pass in a `JoiValidationOptions` object that specifies whether the pipe should strip out properties that are not present in the schema. Default value for `strip` is true. Example usage:
+Use the Joi validation pipe to apply Joi validation rules to an incoming request. Attach to an endpoint that supports a request body (such as Post or Put) using `@Body(new JoiValidationPipe(validationSchema))`.
+
+Optionally, you can pass in a `JoiValidationOptions` object that specifies whether the pipe should strip out properties that are not present in the schema. Default value for `strip` is true. Example usage:
 
 ```typescript
 
